@@ -77,11 +77,12 @@ public class UserRepository {
       System.out.println(deletedRow);
     if (deletedRow > 0){
       System.out.println("USER Deleted by ID " + id);
+      return new User(id);
     } else {
       System.out.println("no user found by ID " + id );
+      return null;
     }
     }
-    return new User(id);
   }
   public static void main(String[] args) throws SQLException {
     var user = UserRepository.deleteUser(23);
