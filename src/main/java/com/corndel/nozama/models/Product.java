@@ -1,7 +1,7 @@
 package com.corndel.nozama.models;
 
 public class Product {
-    private int id;
+    private int id = -1;
     private String name;
     private String description;
     private float price;
