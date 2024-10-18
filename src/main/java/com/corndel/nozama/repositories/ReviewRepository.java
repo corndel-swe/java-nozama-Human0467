@@ -28,8 +28,7 @@ public class ReviewRepository {
                     var rating = rs.getInt("rating");
                     var reviewText = rs.getString("reviewText");
                     var reviewDate = rs.getString("reviewDate");
-                    var formattedDate = reviewDate.replace(" ", "T") + "Z";
-                    reviews.add(new Review(id, productId, userId, rating, reviewText, formattedDate));
+                    reviews.add(new Review(id, productId, userId, rating, reviewText, reviewDate));
                 }
                 return reviews;
             }
