@@ -20,13 +20,24 @@ public class D2E2 {
     app.get(
         "/sumup",
         ctx -> {
-          // TODO:
+          int n = ctx.queryParam("n") != null
+                  ? Integer.parseInt(ctx.queryParam("n"))
+                  : 0;
+          int sum = 0;
+          while(n > 0){
+              sum += n;
+              n--;
+          }
+          ctx.result(String.valueOf(sum));
         });
 
     app.get(
         "/multiply/{x}/{y}",
         ctx -> {
-          // TODO
+            int x = Integer.parseInt(ctx.pathParam("x"));
+            int y = Integer.parseInt(ctx.pathParam("y"));
+
+            ctx.result(String.valueOf(x*y));
         });
 
     return app;

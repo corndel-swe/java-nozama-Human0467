@@ -28,24 +28,32 @@ public class D2E3 {
     app.get(
         "/alarms",
         ctx -> {
-          // TODO
+          ctx.json(AlarmRepository.findAll());
         });
 
     app.get(
         "/alarms/{id}",
         ctx -> {
-          // TODO
+          int id = Integer.parseInt(ctx.pathParam("id"));
+          ctx.json(AlarmRepository.findById(id));
         });
 
     app.post(
         "/alarms",
         ctx -> {
-          // TODO
+          // don't NEED to use the alarm request here since the body includes all fields
+          // necessary for alarm, so could do bodyAsClass(Alarm.class);
+          AlarmRequest body = ctx.bodyAsClass(AlarmRequest.class);
+          Alarm alarm = AlarmRepository.create(body.time(), body.message());
+          ctx.status(201); // created
+          ctx.json(alarm);
         });
 
     return app;
   }
 }
+
+record AlarmRequest(String time, String message) {};
 
 class AlarmRepository {
 

@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS users (
     firstName TEXT NOT NULL,
     lastName TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
-    avatar TEXT,
+    avatar TEXT NOT NULL DEFAULT 'https://imgcdn.stablediffusionweb.com/2024/9/16/778175e0-33f9-4224-9e6b-5c0984042816.jpg',
     password TEXT NOT NULL
 );
 
@@ -40,3 +40,4 @@ CREATE TABLE IF NOT EXISTS reviews (
     FOREIGN KEY (productId) REFERENCES products (id) ON DELETE CASCADE,
     FOREIGN KEY (userId) REFERENCES users (id) ON DELETE CASCADE
 );
+
