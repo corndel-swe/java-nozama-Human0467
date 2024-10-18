@@ -2,6 +2,7 @@ package com.corndel.nozama.exercises;
 
 import io.javalin.Javalin;
 import io.javalin.http.Context;
+import static io.javalin.apibuilder.ApiBuilder.*;
 
 public class D3E1 {
   // This is our counter:
@@ -14,9 +15,15 @@ public class D3E1 {
    * @return a configured Javalin instance
    */
   public static Javalin createApp() {
-    var app = Javalin.create();
-    app.get("/counter", CounterController::getCounter);
-    app.put("/counter/increment", CounterController::increment);
+    var app = Javalin.create(config -> {
+
+      config.router.apiBuilder(() -> {
+        path("/counter", () -> {
+          get("", CounterController::getCounter);
+          put("/increment", CounterController::increment);
+        });
+      });
+    });
     return app;
   }
 }
@@ -26,14 +33,16 @@ class CounterController {
    * Responds with the current counter as a JSON object, e.g. { "count": 3 }.
    */
   public static void getCounter(Context ctx) {
-    // TODO
+    ctx.json(D3E1.counter);
   }
 
   /**
    * Increases the counter by 1 and then responds with the count.
    */
   public static void increment(Context ctx) {
-    // TODO
+    int newCount = D3E1.counter.getCount() + 1;
+    D3E1.counter.setCount(newCount);
+    ctx.json(D3E1.counter);
   }
 }
 
