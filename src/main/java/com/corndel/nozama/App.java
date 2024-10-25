@@ -17,7 +17,6 @@ public class App {
   }
 
   public App() {
-
     app = Javalin.create(config -> {
         config.router.apiBuilder(() -> {
             path("/products", () -> {
@@ -29,6 +28,7 @@ public class App {
                 get("/category/{category}",
                         ProductController::getProductsByCategory);
                 post("", ProductController::addNewProduct);
+                patch("/{productId}/", ProductController::updateProduct);
             });
           path("users", () -> {
                   get("", UserController::getAllUsers);

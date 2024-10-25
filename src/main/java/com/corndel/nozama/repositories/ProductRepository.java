@@ -129,21 +129,35 @@ public class ProductRepository {
         }
     }
 
-//    public static void main(String[] args) {
-//        String dbUrl = "jdbc:sqlite:nozama.db";
-//        try (var connection = DriverManager.getConnection(dbUrl)) {
-//            // call findall
-//            System.out.println(ProductRepository.findAll());
-//            System.out.println(ProductRepository.findById(3));
-//            System.out.println(ProductRepository.findByCategory("Baby"));
-//
-//            Product product = new Product(999, "product_test", "a test", 10.99f, 1, "");
-//            createProduct(product);
-//
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        }
-//    }
+    public static Product updateProduct(Product product) throws SQLException{
+        String query = "UPDATE products\n";
+        query += "SET name = ?,\n";
+        query += "description = ?,\n";
+        query += "price = ?,\n";
+        query += "stockQuantity = ?,\n";
+        query += "imageURL = ?\n";
+        query += "WHERE id = ?;\n";
+
+        // try with resources - get connection
+        try (var con = DB.getConnection();
+             var stmt = con.prepareStatement(query);) {
+
+            System.out.println("connection opened");
+            stmt.setString(1, product.getName());
+            stmt.setString(2, product.getDescription());
+            stmt.setFloat(3, product.getPrice());
+            stmt.setInt(4, product.getStockQuantity());
+            stmt.setString(5, product.getImageURL());
+            stmt.setString(6, String.valueOf(product.getId()));
+
+            int updatedRows = stmt.executeUpdate();
+
+            if(updatedRows == 0) {
+                return null;
+            }
+            return product;
+        }
+    }
 
 
 }

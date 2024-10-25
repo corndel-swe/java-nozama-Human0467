@@ -7,6 +7,7 @@ import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.NotFoundResponse;
 
+import java.io.PrintStream;
 import java.sql.SQLException;
 
 public class ProductController {
@@ -61,5 +62,33 @@ public class ProductController {
         }else{
             throw new BadRequestResponse("unable to add product.");
         }
+    }
+
+    /*
+    updateProduct() requires all fields other than id to be provided, even if only one/some
+    are being updated. The id is taken from the path param. All fields in the table are then
+    updated
+     */
+    public static void updateProduct(Context ctx) throws SQLException {
+        // get id from url
+        ctx.pathParamAsClass("productId", Integer.class)
+                .check(id -> id > 0, "ID must be greater than 0")
+                .get();
+
+        int id = Integer.parseInt(ctx.pathParam("productId"));
+        // read contents of body, combine with id into product object
+        ProductRequest body = ctx.bodyAsClass(ProductRequest.class);
+        Product product = new Product(
+                id, body.name(), body.description(), body.price(),
+                body.stockQuantity(), body.imageURL()
+        );
+        Product response = ProductRepository.updateProduct(product);
+        if(response!=null){
+            ctx.json(response).status(201);
+        }else{
+            throw new BadRequestResponse("unable to add product.");
+        }
+
+
     }
 }
