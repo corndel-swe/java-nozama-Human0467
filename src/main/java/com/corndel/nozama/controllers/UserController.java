@@ -19,6 +19,7 @@ public class UserController {
         var user = UserRepository.findById(id);
         if (user != null){
         ctx.status(200).json(user);
+        ctx.sessionAttribute("id", user.getId());
         } else {
         throw new BadRequestResponse("Cant find user with this Id");
         }

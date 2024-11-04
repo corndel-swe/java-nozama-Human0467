@@ -48,7 +48,6 @@ public class ReviewRepository {
 
         try (var conn = DB.getConnection();
              var stmt = conn.prepareStatement(query)) {
-
             stmt.setInt(1, productId);
             stmt.setInt(2, userId);
             stmt.setInt(3, rating);

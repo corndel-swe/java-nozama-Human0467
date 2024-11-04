@@ -9,6 +9,7 @@ import io.javalin.http.NotFoundResponse;
 
 import java.io.PrintStream;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class ProductController {
     public static void getAllProducts(Context ctx) throws SQLException {
@@ -35,6 +36,8 @@ public class ProductController {
     public static void getProductsByCategory(Context ctx) throws SQLException {
         var category = ctx.pathParam("category");
         var products = ProductRepository.findByCategory(category);
+        int id = ctx.sessionAttribute("id");
+        System.out.println(id);
         if(products!=null) {
             ctx.json(products).status(200);
         }else{
@@ -52,7 +55,8 @@ public class ProductController {
         ProductRequest body = ctx.bodyAsClass(ProductRequest.class);
         // dummy id -1, will be auto assigned in dB
         Product product = new Product(
-                -1, body.name(), body.description(), body.price(),
+                -1, body.
+                name(), body.description(), body.price(),
                 body.stockQuantity(), body.imageURL()
         );
         System.out.println(product);
